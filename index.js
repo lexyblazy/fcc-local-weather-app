@@ -1,20 +1,31 @@
-var options = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
-};
 
-function success(pos) {
-  var crd = pos.coords;
 
-  console.log('Your current position is:');
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-  console.log(`More or less ${crd.accuracy} meters.`);
-};
+var coords = [];
 
-function error(err) {
-  console.warn(`ERROR(${err.code}): ${err.message}`);
-};
 
-navigator.geolocation.getCurrentPosition(success, error, options);
+function getWeather(){
+    var url = `https://api.darksky.net/forecast/f9034888c6b1a0c90fec3c859eacc76a/${coords[0]},${coords[1]}`;
+    $.getJSON(url,function(result){
+        console.log(result);
+        $('#location').text(result.timezone);
+        $('#summary').text(result.currently.summary);
+        $('#temp').text(result.currently.temperature + 'F'); 
+        
+    })
+}
+
+function getCoords(){
+    navigator.geolocation.getCurrentPosition(function(position){
+        
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+        coords.push(lat,lng);
+        getWeather();
+       
+    })
+}
+
+getCoords();
+
+
+// url: `https://api.darksky.net/forecast/f9034888c6b1a0c90fec3c859eacc76a/${lat},${lng}`
