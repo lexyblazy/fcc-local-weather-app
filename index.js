@@ -4,7 +4,7 @@ var coords = [];
 
 
 function getWeather(){
-    var url = `https://api.darksky.net/forecast/f9034888c6b1a0c90fec3c859eacc76a/${coords[0]},${coords[1]}`;
+    var url = `https://api.darksky.net/forecast/f9034888c6b1a0c90fec3c859eacc76a/${coords[0]},${coords[1]}?callback=?`;
     $.getJSON(url,function(result){
         console.log(result);
         $('#location').text(result.timezone);
